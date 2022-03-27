@@ -80,18 +80,21 @@ $Session | Remove-PSSession
 
 }
 
-Write-Host -Prompt "Script copies Windows Event logs (Application, Security & System) from a Remote Machine"
-Write-Host -Prompt " "
-Write-Host -Prompt "The Logs will be copied to LogCollector in your current path"
-Write-Host -Prompt "You can also provide path as an Argument to script for e.g [/.readEvents.ps1 C:\Users\XXXX\LogCollectorServer]"
+Write-Output  "Script copies Windows Event logs (Application, Security & System) from a Remote Machine"
+Write-Output  "The Logs will be copied to LogCollector in your current path"
+Write-Output "You can also provide path as an Argument to script for e.g [/.readEvents.ps1 C:\Users\XXXX\LogCollectorServer]"
+
+Write-Warning "Windows Event logs will be copied to your script exection path under LogCollectorServer if no destination folder provided as argument"
 
 #$DestinationPath = "C:\Users\prade\00.MyWorkSpace\001.Projects\004_RemoteEventsReader\08_LogCollectorServer";
 
+$DestinationPath =  Join-Path $PSScriptRoot "LogCollectionServer"
 
 if (!(Test-Path $DestinationPath -PathType Container)) {
     New-Item -ItemType Directory -Force -Path $DestinationPath
 }
-$DestinationPath =  Join-Path $PSScriptRoot "../LogCollectionServer"
+
+
 
 LogCollector $DestinationPath 
 
